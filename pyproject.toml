@@ -1,0 +1,18 @@
+[project]
+name = "grok-selenium-automation"
+version = "0.1.0"
+description = "Grok automation with Selenium"
+authors = [
+    {name = "sousa-p",email = "p.soousa7@gmail.com"}
+]
+license = {text = "MIT"}
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "selenium (>=4.30.0,<5.0.0)"
+]
+
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
