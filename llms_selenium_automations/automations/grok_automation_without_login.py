@@ -11,7 +11,7 @@ class GrokAutomationWithoutLogin(LLMHandlerABC):
   """
   Class for automating Grok without login, using Selenium to interact with the web interface.
   """
-  def __init__(self, driver: WebDriver, url="https://grok.com", logger=logger):
+  def __init__(self, driver, url="https://grok.com", logger=logger):
     """
     Initializes the automation instance.
     
@@ -56,8 +56,9 @@ class GrokAutomationWithoutLogin(LLMHandlerABC):
       
       self.logger.info(f"{self.TAG} - Waiting for page")
       WebDriverWait(self.driver, self.TIMEOUT_IN_SECONDS).until(
-        EC.presence_of_element_located((By.TAG_NAME, self.MESSAGES_SELECTOR))
+        EC.presence_of_element_located((By.CSS_SELECTOR, self.CHAT_SELECTOR))
       )
+
     except Exception as e:
       self.logger.error("{self.TAG} - Delete tokens error {e}")
       raise
@@ -71,9 +72,8 @@ class GrokAutomationWithoutLogin(LLMHandlerABC):
     try:
       self.logger.info(f"{self.TAG} - Sending prompt: {prompt}")
       textarea_box = self.driver.find_element(By.TAG_NAME, self.CHAT_SELECTOR)
-      self.driver.execute_script(f"arguments[0].value = '{prompt}';", textarea_box)
+      textarea_box.send_keys(prompt)
       textarea_box.send_keys(Keys.RETURN)
-      textarea_box.submit()
       self.logger.info(f"{self.TAG} - Prompt submitted")
     except Exception as e:
       self.logger.error(f"{self.TAG} - Send prompt error {e}")
@@ -85,16 +85,16 @@ class GrokAutomationWithoutLogin(LLMHandlerABC):
     """
     try:
       start_time = time.time()
-      self.logger.info(f"{self.TAG} - Start waiting: {time.time()}")
-      
-      WebDriverWait(self.driver, self.TIMEOUT_IN_SECONDS).until(
-        EC.presence_of_element_located((By.CSS_SELECTOR, self.END_BTN_SELECTOR))
-      )
-      actual_time = time.time()
-      self.logger.info(f"{self.TAG} - Total wait time {start_time - actual_time}")
+      while len(self.driver.find_elements(By.CSS_SELECTOR, self.END_BTN_SELECTOR)) < 1:
+        time.sleep(self.REST_TIME_IN_SECONDS)
+        actual_time = time.time()
+        
+        if actual_time - start_time > self.TIMEOUT_IN_SECONDS:
+          self.logger.info(f"{self.TAG} - Timeout")
+          break
       time.sleep(self.REST_TIME_IN_SECONDS)
     except Exception as e:
-      self.logger.error("{self.TAG} - Wait to finish response error {e}")
+      self.logger.error(f"{self.TAG} - Wait to finish response error {e}")
       raise
   
   def request(self, prompt: str) -> str:

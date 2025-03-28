@@ -1,12 +1,11 @@
 from abc import ABC, abstractmethod
 from selenium.webdriver.remote.webdriver import WebDriver
-from llms_selenium_automations.logger import logger
 
 class LLMHandlerABC(ABC):
   """Abstract base class for handling LLM-based chat automation using Selenium."""
 
   @abstractmethod
-  def __init__(self, url: str, driver: WebDriver, logger=logger):
+  def __init__(self, url: str, driver):
     """
     Initializes the LLM handler.
 
