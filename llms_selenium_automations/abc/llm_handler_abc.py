@@ -24,39 +24,27 @@ class LLMHandlerABC(ABC):
     pass
 
   @abstractmethod
-  def get_conversation(self) -> list[str]:
-    """
-    Retrieves the conversation history as a list of messages.
-
-    Returns:
-      list[str]: The conversation history.
-    """
-    pass
-
-  @abstractmethod
-  def get_last_prompt(self) -> str:
-    """
-    Retrieves the last prompt sent by the user.
-
-    Returns:
-      str: The last user input.
-    """
-    pass
-
-  @abstractmethod
-  def get_last_response(self) -> str:
-    """
-    Retrieves the last response received from the chat.
-
-    Returns:
-      str: The last chatbot response.
-    """
-    pass
-
-  @abstractmethod
   def send_prompt(self, prompt: str) -> None:
     """
     Sends a prompt to the chat interface.
+
+    Args:
+      prompt (str): The input text to be sent.
+    """
+    pass
+  
+  @abstractmethod
+  def wait_to_finish_response(self) -> None:
+    """
+    Wait chat interface to finish prompt response.
+    """
+    pass
+
+  
+  @abstractmethod
+  def request(self, prompt: str) -> str:
+    """
+    Requests a prompt to the chat interface.
 
     Args:
       prompt (str): The input text to be sent.
