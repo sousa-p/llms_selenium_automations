@@ -1,7 +1,7 @@
 [project]
-name = "grok-selenium-automation"
+name = "llms-selenium-automation"
 version = "0.1.0"
-description = "Grok automation with Selenium"
+description = "LLms automation with Selenium"
 authors = [
     {name = "sousa-p",email = "p.soousa7@gmail.com"}
 ]
@@ -11,9 +11,6 @@ requires-python = "3.11"
 dependencies = [
     "selenium (>=4.30.0,<5.0.0)",
     "logging (>=0.4.9.6,<0.5.0.0)",
-    "webdriver-manager (>=4.0.2,<5.0.0)",
-    "undetected-chromedriver (>=3.5.5,<4.0.0)",
-    "setuptools (>=78.1.0,<79.0.0)"
 ]
 
 
